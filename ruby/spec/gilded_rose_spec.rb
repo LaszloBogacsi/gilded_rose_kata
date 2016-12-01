@@ -28,7 +28,8 @@ describe GildedRose do
         end
 
         it "items quality never goes negative" do
-          expect { 15.times{GildedRose.new(items).update_quality} }.to change {items[0].quality}.from(3).to(0)
+          gilded_rose = GildedRose.new(items)
+          expect { 3.times{gilded_rose.update_quality} }.to change {items[0].quality}.from(3).to(0)
         end
 
       end
