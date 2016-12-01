@@ -83,11 +83,13 @@ describe GildedRose do
 
         end
         context "conjured items" do
-          xit "degrages in quality twice as fast as normal items" do
+          it "degrages in quality twice as fast as normal items" do
             items = [Item.new("Conjured Mana Cake", 10, 10)]
-            expect{ GildedRose.new(items).update_quality }.to change {items[0].quality}.from(10).to(2)
-
-
+            expect{ GildedRose.new(items).update_quality }.to change {items[0].quality}.from(10).to(8)
+          end
+          it "degrages in quality twice as fast as normal items when sell date has passed" do
+            items = [Item.new("Conjured Mana Cake", 0, 10)]
+            expect{ GildedRose.new(items).update_quality }.to change {items[0].quality}.from(10).to(6)
           end
         end
       end
@@ -100,39 +102,39 @@ describe GildedRose do
       Item.new("Sulfuras, Hand of Ragnaros", 0, 80),
       Item.new("Conjured Mana Cake", 10, 10) ]}
 
-  describe '#normal_item?' do
+      describe '#normal_item?' do
 
-    it 'returns true if the item is normal (not special, legendary or conjured)' do
-      expect(GildedRose.new(items).normal_item?(items[0])).to eq true
+        it 'returns true if the item is normal (not special, legendary or conjured)' do
+          expect(GildedRose.new(items).normal_item?(items[0])).to eq true
+        end
+        it 'returns false if the item is anything but normal' do
+          expect(GildedRose.new(items).normal_item?(items[1])).to eq false
+        end
+      end
+      describe '#special_item?' do
+        it "returns true if the item is special_item" do
+          expect(GildedRose.new(items).special_item?(items[1])).to eq true
+        end
+        it "returns false if the item anything but special_item" do
+          expect(GildedRose.new(items).special_item?(items[2])).to eq false
+        end
+      end
+      describe '#legendary_item?' do
+        it "returns true if the item is legendary_item" do
+          expect(GildedRose.new(items).legendary_item?(items[2])).to eq true
+        end
+        it "returns false if the item anything but legendary_item" do
+          expect(GildedRose.new(items).legendary_item?(items[3])).to eq false
+        end
+      end
+      describe '#conjured_item?' do
+        it "returns true if the item is conjured_item" do
+          expect(GildedRose.new(items).conjured_item?(items[3])).to eq true
+        end
+        it "returns false if the item anything but conjured_item" do
+          expect(GildedRose.new(items).conjured_item?(items[0])).to eq false
+        end
+      end
     end
-    it 'returns false if the item is anything but normal' do
-      expect(GildedRose.new(items).normal_item?(items[1])).to eq false
-    end
-  end
-  describe '#special_item?' do
-    it "returns true if the item is special_item" do
-      expect(GildedRose.new(items).special_item?(items[1])).to eq true
-    end
-    it "returns false if the item anything but special_item" do
-      expect(GildedRose.new(items).special_item?(items[2])).to eq false
-    end
-  end
-  describe '#legendary_item?' do
-    it "returns true if the item is legendary_item" do
-      expect(GildedRose.new(items).legendary_item?(items[2])).to eq true
-    end
-    it "returns false if the item anything but legendary_item" do
-      expect(GildedRose.new(items).legendary_item?(items[3])).to eq false
-    end
-  end
-  describe '#conjured_item?' do
-    it "returns true if the item is conjured_item" do
-      expect(GildedRose.new(items).conjured_item?(items[3])).to eq true
-    end
-    it "returns false if the item anything but conjured_item" do
-      expect(GildedRose.new(items).conjured_item?(items[0])).to eq false
-    end
-  end
-end
 
-end
+  end
